@@ -30,12 +30,14 @@ async function run() {
 
         const userCollection = client.db("usersDB").collection("users");
 
+        // GET
         app.get('/users', async (req, res) => {
             const cursor = userCollection.find();
             const result = await cursor.toArray();
             res.send(result);
         });
 
+        // CREATE
         app.post('/users', async (req, res) => {
             const user = req.body;
             console.log('New User: ', user);
@@ -44,6 +46,7 @@ async function run() {
             res.send(result);
         });
 
+        // EDIT / SINGLE VIEW
         app.get('/users/:id', async (req, res) => {
             const id = req.params.id;
             const query = {_id : new ObjectId(id)};
@@ -51,6 +54,24 @@ async function run() {
             res.send(result);
         });
 
+        // UPDATE
+        app.put('/users/:id', async (req, res) => {
+            const id = req.params.id;
+            const user = req.body;
+            console.log(id, user)
+            const filter = { _id : new ObjectId(id)};
+            const options = { upsert : true };
+            const updatedUser = {
+                $set: {
+                    email: user.email,
+                    password: user.password
+                }
+            }
+            const result = await userCollection.updateOne(filter, updatedUser, options);
+            res.send(result);
+        });
+
+        // DELETE
         app.delete('/users/:id', async (req, res) => {
             const id = req.params.id;
             console.log('Delete this ', id);

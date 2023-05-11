@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, Navigate } from 'react-router-dom';
 
 const Update = () => {
 
@@ -12,6 +12,23 @@ const Update = () => {
         const password = form.password.value;
         const user = {email, password};
         console.log(user);
+
+        fetch(`http://localhost:5000/users/${loadedData._id}`, {
+            method: 'PUT',
+            headers: {
+              'content-type': 'application/json'
+            },
+            body: JSON.stringify(user),
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.modifiedCount) {
+                    alert('Successfully updated!');
+                }
+
+            })
+            .catch(err => console.log(err.message))
     }
 
     return (
