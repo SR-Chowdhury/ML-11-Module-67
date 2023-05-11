@@ -1,4 +1,5 @@
 import './App.css'
+import {Link} from 'react-router-dom'
 
 function App() {
 
@@ -18,7 +19,15 @@ function App() {
       body: JSON.stringify(user),
     })
       .then(res => res.json())
-      .then(data => console.log(data))
+      .then(data => {
+
+        console.log(data);
+        if(data.insertedId) {
+          alert('Successfully inserted to the DB');
+          form.reset();
+        }
+
+      })
       .catch(err => console.log(err.message))
   }
 
@@ -26,6 +35,7 @@ function App() {
     <>
       <div>
         <h1>Simple CRUD</h1>
+        <Link to="/users">All Users</Link><br /><br />
         <div>
           <form onSubmit={handleSubmit}>
             <input type="email" name='email' placeholder='email' /><br />
