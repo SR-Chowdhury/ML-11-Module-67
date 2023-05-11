@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import './index.css'
 import UsersCollection from './components/UsersCollection.jsx';
+import Update from './components/Update.jsx';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,11 @@ const router = createBrowserRouter([
     path: '/users',
     element: <UsersCollection/>,
     loader: () => fetch('http://localhost:5000/users')
+  },
+  {
+    path: '/users/:id',
+    element: <Update/>,
+    loader: ({params}) => fetch(`http://localhost:5000/users/${params.id}`)
   }
 ]);
 

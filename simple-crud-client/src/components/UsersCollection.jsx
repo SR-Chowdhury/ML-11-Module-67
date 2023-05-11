@@ -31,7 +31,9 @@ const UsersCollection = () => {
                 {
                     users.map((user, index) => 
                         <p key={index}>
-                            {user.email} : {user.password} <button onClick={() => handleDelete(user._id)}><span>Delete</span></button>
+                            {user.email} : {user.password} &nbsp;
+                            <Link to={`/users/${user._id}`}>Edit</Link> &nbsp;
+                            <button onClick={() => handleDelete(user._id)}><span>Delete</span></button>
                         </p>)
                 }
             </div>
